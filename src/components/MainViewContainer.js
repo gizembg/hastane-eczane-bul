@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { decrement, increment } from './counterSlice'
 import { styled } from '@mui/material/styles';
@@ -19,6 +19,9 @@ import FilterIcon from './FilterIcon'
 
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import LocationOnIcon from '@mui/icons-material/LocationOn'
+import CallIcon from '@mui/icons-material/LocationOn'
+
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -33,12 +36,17 @@ const MainViewContaier = () => {
     const dispatch = useDispatch()
 
 
+    
+    
 
-    const [alignment, setAlignment] = React.useState('web');
-    const [alignmentFilter, setAlignmentFilter] = React.useState('web');
+ 
+
+    const [alignment, setAlignment] = React.useState('harita');
+    const [alignmentFilter, setAlignmentFilter] = React.useState('hepsi');
 
 
     const handleChange = (event, newAlignment) => {
+        console.log("newAlignment", newAlignment)
         setAlignment(newAlignment);
     };
 
@@ -71,8 +79,11 @@ const MainViewContaier = () => {
     });
 
 
-
-   
+    const { data, loading, error } = useFetch("https://apieczane.afetharita.com/api/cityWithDistricts ");
+        if (loading) return <h1>Yükleniyor</h1>;
+        if (error) console.log(error);
+        console.log("data", data)
+ 
     return (
 
         <Paper id='fullheight' sx={{ bgcolor: '#182151', height: '100%', padding: '30px 200 100 200' }} variant="outlined" >
@@ -118,8 +129,8 @@ const MainViewContaier = () => {
                         onChange={handleChange}
                         aria-label="Platform"
                     >
-                        <CustomToggleButton value="web">Haritada Gör</CustomToggleButton>
-                        <CustomToggleButton value="android">Listede Gör</CustomToggleButton>
+                        <CustomToggleButton value="harita">Haritada Gör</CustomToggleButton>
+                        <CustomToggleButton value="liste">Listede Gör</CustomToggleButton>
                     </ToggleButtonGroup>
 
                 </Grid>
@@ -138,7 +149,7 @@ const MainViewContaier = () => {
                         borderRadius: '8px',
                     }} direction="row-reverse" spacing={2} divider={<Divider sx={{ backgroundColor: 'white' }} orientation="vertical" flexItem />}
                     >
-                    
+
 
                         <ToggleButtonGroup
                             sx={{
@@ -163,98 +174,126 @@ const MainViewContaier = () => {
 
             </Grid>
 
+            {
+                alignment === 'harita' &&
+                <Box sx={{
+                    width: '100%',
+                    display: 'flex',
+                    height: '500px',
+                    borderRadius: '17px',
+                    position: 'relative',
 
-            <Box sx={{
-                width: '100%',
-                display: 'flex',
-                height: '500px',
-                borderRadius: '17px',
-                position: 'relative'
-            }}>
-                <MapContainer
-                    className="hazir-map" //class adı kendinize göre ayarlayabilirsiniz isterseniz
-                    center={[37.683664, 38.322966]} //CENTER BILGINIZ NEREDE İSE ORAYA KOYUNUZ
-                    zoom={7} //ZOOM NE KADAR YAKINDA OLMASINI
-                    maxZoom={17}
-                //maxZoomu kendinize göre ayarlayın
-                >
-
-                    <Box
-                        sx={{
-                            position: "absolute",
-                            marginTop: "5px",
-                            top: 0,
-                            right: 20,
-                            zIndex: 1000,
-                            gap: "2px",
-                            display: "flex",
-                            flexDirection: "column",
-                        }}
+                }}>
+                    <MapContainer
+                        className="hazir-map" //class adı kendinize göre ayarlayabilirsiniz isterseniz
+                        center={[37.683664, 38.322966]} //CENTER BILGINIZ NEREDE İSE ORAYA KOYUNUZ
+                        zoom={7} //ZOOM NE KADAR YAKINDA OLMASINI
+                        maxZoom={17}
+                    //maxZoomu kendinize göre ayarlayın
                     >
-                        {/* {centers.map((data) => {
-                        return (
-                            <CityComponent {...data} />
-                        );
-                    })} */}
-                    </Box>
+
+                        <Box
+                            sx={{
+                                position: "absolute",
+                                marginTop: "5px",
+                                top: 0,
+                                right: 20,
+                                zIndex: 1000,
+                                gap: "2px",
+                                display: "flex",
+                                flexDirection: "column",
+                            }}
+                        >
+                        </Box>
 
 
-                    <TileLayer //Bu kısımda değişikliğe gerek yok
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                    />
+                        <TileLayer //Bu kısımda değişikliğe gerek yok
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                        />
 
-                    <MarkerClusterGroup>
-                        {eczanedb
-                            //Bu kısmı değiştirin kendi datanıza göre stations.map kısmını kendi datanıza göre mydata.map gibi
-                            .map((station) => {
-                                return (
-                                    <Marker
-                                        key={station.id} //key kısmını da kendi datanıza göre ayarlayın mydaya.id gibi
-                                        position={[station.latitude, station.longitude]} //Kendi pozisyonunuzu ekleyin buraya stationı değiştirin mydata.adress.latitude mydata.adress.longitude gibi
-                                    >
-                                        <Popup>
-                                            {
-                                                // Markerın üzerine tıklandığında açılacak olan kutu burası
-                                            }
-                                        </Popup>
-                                    </Marker>
-                                );
-                            })}
-                    </MarkerClusterGroup>
-                </MapContainer>
-            </Box>
+                        <MarkerClusterGroup>
+                            {eczanedb
+                                //Bu kısmı değiştirin kendi datanıza göre stations.map kısmını kendi datanıza göre mydata.map gibi
+                                .map((station) => {
+                                    return (
+                                        <Marker
+                                            key={station.id} //key kısmını da kendi datanıza göre ayarlayın mydaya.id gibi
+                                            position={[station.latitude, station.longitude]} //Kendi pozisyonunuzu ekleyin buraya stationı değiştirin mydata.adress.latitude mydata.adress.longitude gibi
+                                        >
+                                            <Popup>
+                                                {
+                                                    // Markerın üzerine tıklandığında açılacak olan kutu burası
+                                                }
+                                            </Popup>
+                                        </Marker>
+                                    );
+                                })}
+                        </MarkerClusterGroup>
+                    </MapContainer>
+                </Box>
 
+
+            }
 
             <Box sx={{ flexGrow: 1, marginTop: '30px', height: '500px', overflow: 'auto', textAlign: 'center' }}>
                 <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                    {Array.from(Array(24)).map((_, index) => (
+                    {data?.data.map((city, index) => (
                         <Grid item xs={2} sm={4} md={4} key={index}>
-                            <Button variant="outlined">Kayseri</Button>
+                            <Button variant="outlined">{`${city.key}`}</Button>
                         </Grid>
                     ))}
                 </Grid>
             </Box>
+
+            {alignment === 'liste' &&
+                <Box sx={{ flexGrow: 1, marginTop: '30px', height: '500px', overflow: 'auto', textAlign: 'center' }}>
+                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                        {Array.from(Array(24)).map((_, index) => (
+                            <Grid item xs={2} sm={4} md={4} key={index}>
+                                <Stack sx={{ backgroundColor: "white", borderRadius: '3px' }} width="400px" >
+                                    <Box>
+                                        <Stack direction="row" spacing={0} margin="0px" padding="0px 12px">
+                                            <Box padding="3px 4px 0px 0px" >
+                                                <img src="https://cdn.discordapp.com/attachments/1073402852644499537/1073699707299315803/pill.png" width="16px" height="16px" ></img>
+                                            </Box>
+                                            <Typography margin="0px" color={"#F83B3B"}>
+                                                Eczane
+                                            </Typography>
+                                        </Stack>
+                                    </Box>
+                                    <Typography fontSize="24px" p="0px 12px">
+                                        Demir Eczane
+                                    </Typography>
+
+                                    <Divider style={{ width: '93.5%', margin: "7px 4px" }} />
+
+                                    <Stack direction="column">
+                                        <Stack direction="row" padding="3x">
+                                            <Stack direction="row" padding="3px 0px 0px 7px">
+                                                <LocationOnIcon ></LocationOnIcon>
+                                                <Typography display="flex" padding="3px">Konum|Konum</Typography>
+                                                <Box width=" 80px"></Box>
+                                                <CallIcon></CallIcon>
+                                                <Typography>+905434541222</Typography>
+                                            </Stack>
+                                        </Stack>
+                                        <Typography padding="0px 12px" display="absolute" color="#182151">408 evinin yanında</Typography>
+
+                                    </Stack>
+
+
+                                </Stack>
+                            </Grid>
+                        ))}
+                    </Grid>
+
+
+                </Box>
+            }
+
         </Paper >
 
-        //   <div>
-        //     <div>
-        //       <button
-        //         aria-label="Increment value"
-        //         onClick={() => dispatch(increment())}
-        //       >
-        //         +
-        //       </button>
-        //       <span>{count}</span>
-        //       <button
-        //         aria-label="Decrement value"
-        //         onClick={() => dispatch(decrement())}
-        //       >
-        //         -
-        //       </button>
-        //     </div>
-        //     {/* omit additional rendering output here */}
-        //   </div>
     )
 }
 

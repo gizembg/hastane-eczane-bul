@@ -29,7 +29,7 @@ import MainViewContaier from "./components/MainViewContainer";
 // }
 
 export default function App() {
-  const { loading, error } = useFetch("http://v2.jokeapi.dev/joke/Any");
+  const {data, loading, error } = useFetch("https://apieczane.afetharita.com/api/cityWithDistricts ");
   if (loading) return <h1>Yükleniyor</h1>;
   if (error) console.log(error);
 
