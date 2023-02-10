@@ -25,3 +25,32 @@
 .paper-button {
   text-transform: none;
 }
+
+.leaflet-popup-content p {
+  margin: 0px;
+ }
+ 
+ 
+ .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+   width: 420px;
+   background: white;
+   color: #333;
+   box-shadow: 0 3px 14px rgb(0 0 0 / 40%);
+ }
+ 
+ .css-s39t6n-MuiTypography-root {
+   margin: 0;
+   font-family: "Roboto","Helvetica","Arial",sans-serif;
+   font-weight: 400;
+   font-size: 1rem;
+   line-height: 1.5;
+   letter-spacing: 0.00938em;
+   padding: 0px 1px;
+   display: absolute;
+   text-align: center;
+   color: #182151;
+   font: normal normal normal px/35px Segoe UI;
+   letter-spacing: 0px;
+   color: #182151;
+   opacity: 0.63;
+ }
