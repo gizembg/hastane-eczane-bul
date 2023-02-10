@@ -32,23 +32,18 @@ const MainViewContaier = () => {
     const count = useSelector((state) => state.counter.value)
     const dispatch = useDispatch()
 
-    const Item = styled(Paper)(({ theme }) => ({
-        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-        ...theme.typography.body2,
-        padding: theme.spacing(2),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-    }));
-    const buttonClicked = {
-        "& .MuiButton-root": {
-            backgroundColor: '#FF6464'
-        }
-    };
+
 
     const [alignment, setAlignment] = React.useState('web');
+    const [alignmentFilter, setAlignmentFilter] = React.useState('web');
+
 
     const handleChange = (event, newAlignment) => {
         setAlignment(newAlignment);
+    };
+
+    const handleChangeFilter = (event, newAlignment) => {
+        setAlignmentFilter(newAlignment);
     };
 
     const CustomToggleButton = styled(ToggleButton)({
@@ -62,15 +57,22 @@ const MainViewContaier = () => {
     });
 
 
-    const CustomButton = styled(Button)({
+
+    const CustomToggleButtonFilter = styled(ToggleButton)({
+
         "&.Mui-selected, &.Mui-selected:hover": {
             color: "white",
             backgroundColor: '#FF6464',
         },
-        "&.MuiButtonBase-root": {
-            textTransform: 'none'
+        "&.MuiToggleButton-root": {
+            textTransform: 'none',
+            color: 'white !important'
         }
     });
+
+
+
+   
     return (
 
         <Paper id='fullheight' sx={{ bgcolor: '#182151', height: '100%', padding: '30px 200 100 200' }} variant="outlined" >
@@ -104,11 +106,12 @@ const MainViewContaier = () => {
                 }} item xs={6}>
 
                     <ToggleButtonGroup
-                    textTransform= {'none'}
-                    sx={{backgroundColor: 'white',
-                        padding:'1',
+                        textTransform={'none'}
+                        sx={{
+                            backgroundColor: 'white',
+                            padding: '1',
 
-                    }}
+                        }}
                         color="secondary"
                         value={alignment}
                         exclusive
@@ -133,16 +136,24 @@ const MainViewContaier = () => {
                         border: 'solid 0.1px',
                         padding: '7px',
                         borderRadius: '8px',
-                        color: 'white',
                     }} direction="row-reverse" spacing={2} divider={<Divider sx={{ backgroundColor: 'white' }} orientation="vertical" flexItem />}
                     >
-                        <CustomButton variant="text">Eczane</CustomButton>
-                        <Button sx={{
-                            textTransform: 'unset'
-                        }} variant="text">Hastane</Button>
-                        <Button sx={{
-                            textTransform: 'unset'
-                        }} variant="text">Hepsi</Button>
+                    
+
+                        <ToggleButtonGroup
+                            sx={{
+                                padding: '1',
+                            }}
+                            value={alignmentFilter}
+                            exclusive
+                            onChange={handleChangeFilter}
+                            aria-label="Platform"
+                        >
+                            <CustomToggleButtonFilter value="hepsi">Hepsi</CustomToggleButtonFilter>
+                            <CustomToggleButtonFilter value="hastane">Hastane</CustomToggleButtonFilter>
+                            <CustomToggleButtonFilter value="eczane">Eczane</CustomToggleButtonFilter>
+
+                        </ToggleButtonGroup>
                         <FilterIcon></FilterIcon>
 
                     </Stack>
