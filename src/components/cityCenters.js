@@ -1,54 +1,44 @@
-const centers = [
-    {
-        city: "Adana",
+const centers = {
+    "Adana": {
         lat: 36.9914,
-        long: 35.3308,
+        lng: 35.3308
     },
-    {
-        city: "Adıyaman",
+    "Adıyaman": {
         lat: 37.7636,
-        long: 38.2773,
+        lng: 38.2773
     },
-    {
-        city: "Diyarbakır",
+    "Diyarbakır": {
         lat: 37.925,
-        long: 40.211,
+        lng: 40.211
     },
-    {
-        city: "Hatay",
+    "Hatay": {
         lat: 36.2023,
-        long: 36.1613,
+        lng: 36.1613
     },
-    {
-        city: "Gaziantep",
+    "Gaziantep": {
         lat: 37.066,
-        long: 37.3781,
+        lng: 37.3781
     },
-    {
-        city: "Kahramanmaraş",
+    "Kahramanmaraş": {
         lat: 37.5753,
-        long: 36.9228,
+        lng: 36.9228
     },
-    {
-        city: "Kilis",
+    "Kilis": {
         lat: 36.7165,
-        long: 37.1147,
+        lng: 37.1147
     },
-    {
-        city: "Malatya",
+    "Malatya": {
         lat: 38.3554,
-        long: 38.3335,
+        lng: 38.3335
     },
-    {
-        city: "Şanlıurfa",
+    "Şanlıurfa": {
         lat: 37.1674,
-        long: 38.7955,
+        lng: 38.7955
     },
-    {
-        city: "Osmaniye",
+    "Osmaniye": {
         lat: 37.0746,
-        long: 36.2464,
-    },
-];
+        lng: 36.2464
+    }
+};
 
 export default centers;
