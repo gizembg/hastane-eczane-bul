@@ -20,7 +20,7 @@ import FilterIcon from './FilterIcon'
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import LocationOnIcon from '@mui/icons-material/LocationOn'
-import CallIcon from '@mui/icons-material/LocationOn'
+import CallIcon from '@mui/icons-material/Call'
 import axios from 'axios';
 
 
@@ -120,14 +120,18 @@ const MainViewContaier = () => {
 
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log("data", data)
-        console.log("citydata",citydata)
+        console.log("citydata", citydata)
 
-    },[data, citydata])
+    }, [data, citydata])
 
 
-    
+    const onCityClick = () => {
+
+    }
+
+
     return (
 
         <Paper id='fullheight' sx={{ bgcolor: '#182151', height: '100%', padding: '30px 200 100 200' }} variant="outlined" >
@@ -149,7 +153,6 @@ const MainViewContaier = () => {
                 </Typography>
 
             </Grid>
-
 
 
             <Grid container sx={{ margin: '90 0 40 0' }}>
@@ -204,12 +207,12 @@ const MainViewContaier = () => {
                             onChange={handleChangeFilter}
                             aria-label="Platform"
                         >
-                            <CustomToggleButtonFilter value="hepsi">Hepsi</CustomToggleButtonFilter>
-                            <CustomToggleButtonFilter value="hastane">Hastane</CustomToggleButtonFilter>
+                            {/* <CustomToggleButtonFilter value="hepsi">Hepsi</CustomToggleButtonFilter>
+                            <CustomToggleButtonFilter value="hastane">Hastane</CustomToggleButtonFilter> */}
                             <CustomToggleButtonFilter value="eczane">Eczane</CustomToggleButtonFilter>
 
                         </ToggleButtonGroup>
-                        <FilterIcon></FilterIcon>
+                        {/* <FilterIcon></FilterIcon> */}
 
                     </Stack>
                 </Grid>
@@ -322,16 +325,27 @@ const MainViewContaier = () => {
             }
 
             <Box sx={{ flexGrow: 1, marginTop: '30px', height: '500px', overflow: 'auto', textAlign: 'center' }}>
-                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 12, md: 12 }}>
                     {citydata?.data.map((city, index) => (
-                        <Grid item xs={2} sm={4} md={4} key={index}>
-                            <Button variant="outlined">{`${city.key}`}</Button>
+                        <Grid item xs={2} sm={4} md={3} key={index}>
+                            <Button onClick={onCityClick} sx={{
+                                color: 'white', 
+                                border: 'solid 0.5px', 
+                                height: '50px', 
+                                width: '150px'
+                            }} variant="outlined"><span style={{
+                                display: 'block',
+                                overflow: 'hidden',
+                                whiteSpace: 'nowrap',
+                                textOverflow: 'ellipsis'
+                            }}>{`${city.key}`}</span></Button>
                         </Grid>
                     ))}
-                </Grid> 
+                </Grid>
             </Box>
 
-            {alignment === 'liste' &&
+            {
+                alignment === 'liste' &&
                 <Box sx={{ flexGrow: 1, marginTop: '30px', height: '500px', overflow: 'auto', textAlign: 'center' }}>
                     <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                         {Array.from(Array(24)).map((_, index) => (
