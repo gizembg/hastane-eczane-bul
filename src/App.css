@@ -103,6 +103,12 @@
     
   
   }
+  .css-1usm8li-MuiGrid-root{
+    flex-direction: column !important;
+    justify-content: center !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+  }
 
   .css-1tvhg63-MuiGrid-root{
     width: 100% !important;

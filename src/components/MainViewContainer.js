@@ -46,11 +46,19 @@ const MainViewContaier = () => {
 
 
     const handleChange = (event, newAlignment) => {
-        console.log("newAlignment", newAlignment)
         setAlignment(newAlignment);
     };
 
     const handleChangeFilter = (event, newAlignment) => {
+        if(newAlignment ==='eczane'){
+            setActiveData(dataEczane)
+
+        }else if(newAlignment ==='hastane'){
+            setActiveData(dataHastane)
+
+        }else if(newAlignment ==='hepsi'){
+            setActiveData(allData)
+        }
         setAlignmentFilter(newAlignment);
     };
 
@@ -78,8 +86,9 @@ const MainViewContaier = () => {
         }
     });
 
+    const [activeData, setActiveData] = React.useState(null)
 
-    const [data, setAllData] = React.useState(null)
+    const [allData, setAllData] = React.useState(null)
     const [dataEczane, setEczane] = React.useState(null)
     const [dataHastane, setHastane] = React.useState(null)
     const [citydata, setCityData] = React.useState(null)
@@ -88,7 +97,7 @@ const MainViewContaier = () => {
     useEffect(() => {
         axios.get("https://apieczane.afetharita.com/api?type=Hastane").then((response) => {
             setHastane(response.data);
-            setAllData(response.data);
+            //setAllData(response.data);
 
         }).catch((err) => {
             //setError(err)
@@ -99,7 +108,7 @@ const MainViewContaier = () => {
     useEffect(() => {
         axios.get("https://apieczane.afetharita.com/api?type=Eczane").then((response) => {
             setEczane(response.data);
-            setAllData(response.data);
+            //setAllData(response.data);
 
         }).catch((err) => {
             //setError(err)
@@ -146,6 +155,12 @@ const MainViewContaier = () => {
         );
     }
 
+    // useEffect(() => {
+    //     console.log("data", allData)
+    //     console.log("dataEczane", dataEczane)
+    //     console.log("dataHastane", dataHastane)
+    // }, [allData, dataEczane, dataHastane])
+
     const handleChangeCity = (city) => {
         const lat = centers[city]?.lat;
         const lng = centers[city]?.lng;
@@ -184,15 +199,16 @@ const MainViewContaier = () => {
                 <Grid sx={{
                     display: 'flex',
                     flexDirection: 'row',
-                    alignItems: 'flex-start',
                     justifyContent: 'flex-start',
+                    alignItems: 'center'
+
                 }} item xs={6}>
 
                     <ToggleButtonGroup
                         textTransform={'none'}
                         sx={{
                             backgroundColor: 'white',
-                            padding: '1',
+                            padding: '2',
 
                         }}
                         color="secondary"
@@ -235,7 +251,6 @@ const MainViewContaier = () => {
                             <CustomToggleButtonFilter value="eczane">Eczane</CustomToggleButtonFilter>
 
                         </ToggleButtonGroup>
-                        <div style={{ alignItems: 'center', display: 'flex', justifyContent: 'center' }}><FilterIcon></FilterIcon> </div>
 
                     </Stack>
                 </Grid>
@@ -272,7 +287,7 @@ const MainViewContaier = () => {
 
 
                         <MarkerClusterGroup>
-                            {data?.data.
+                            {activeData?.data.
                                 //Bu kısmı değiştirin kendi datanıza göre stations.map kısmını kendi datanıza göre mydata.map gibi
                                 map((station) => {
 
@@ -368,7 +383,7 @@ const MainViewContaier = () => {
                         gap: '7.5px',
                         justifyContent: 'center'
                     }}>
-                        {data?.data.map((item, index) => (
+                        {activeData?.data.map((item, index) => (
                             <Grid item xs={2} sm={4} md={4} key={index}>
                                 <Stack sx={{ backgroundColor: "white", borderRadius: '10px', padding: '5px' }} width="320px" >
                                     <Box>
