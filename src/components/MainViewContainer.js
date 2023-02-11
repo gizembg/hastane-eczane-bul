@@ -200,7 +200,8 @@ const MainViewContaier = () => {
                     display: 'flex',
                     flexDirection: 'row',
                     justifyContent: 'flex-start',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    maxWidth: 'unset'
 
                 }} item xs={6}>
 
@@ -228,7 +229,9 @@ const MainViewContaier = () => {
                     flexDirection: 'row',
                     alignItems: 'flex-start',
                     justifyContent: 'flex-end',
-                    color: 'white'
+                    color: 'white',
+                    maxWidth: 'unset'
+
                 }} item xs={6}>
 
                     <Stack sx={{
