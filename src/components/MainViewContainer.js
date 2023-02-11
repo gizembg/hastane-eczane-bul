@@ -151,7 +151,6 @@ const MainViewContaier = () => {
                     Bölgelerde Bulunan <span style={{ color: 'red' }}>Eczaneler </span>
                     ve <span style={{ color: 'red' }}>Hastaneler</span> Haritası
                 </Typography>
-
             </Grid>
 
 
